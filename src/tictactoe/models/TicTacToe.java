@@ -1,7 +1,5 @@
 package tictactoe.models;
 
-import java.util.ArrayList;
-
 public class TicTacToe {
 	private boolean isGameEnded = false;
 	private boolean xTurn = true;
