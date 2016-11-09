@@ -18,7 +18,7 @@
    <children>
       <ImageView fitHeight="434.0" fitWidth="358.0" layoutX="29.0" layoutY="237.0" opacity="0.17" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../../IFlogo.png" />
+            <Image url="@../../resources/ifsp.png" />
          </image>
       </ImageView>
       <GridPane fx:id="gridGame" layoutX="50.0" layoutY="48.0" prefHeight="400.0" prefWidth="400.0" style="-fx-border-color: #66cc00;">
@@ -33,15 +33,15 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="but12" mnemonicParsing="false" onAction="#handlePaneClick" prefHeight="147.0" prefWidth="150.0" style="-fx-border-radius: 0;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Button fx:id="but10" mnemonicParsing="false" onAction="#handlePaneClick" prefHeight="164.0" prefWidth="166.0" style="-fx-border-radius: 0;" GridPane.columnIndex="1" />
-            <Button fx:id="but20" mnemonicParsing="false" onAction="#handlePaneClick" prefHeight="164.0" prefWidth="166.0" style="-fx-border-radius: 0;" GridPane.columnIndex="2" />
-            <Button fx:id="but01" mnemonicParsing="false" onAction="#handlePaneClick" prefHeight="164.0" prefWidth="166.0" style="-fx-border-radius: 0;" GridPane.rowIndex="1" />
-            <Button fx:id="but02" mnemonicParsing="false" onAction="#handlePaneClick" prefHeight="164.0" prefWidth="166.0" style="-fx-border-radius: 0;" GridPane.rowIndex="2" />
-            <Button fx:id="but21" mnemonicParsing="false" onAction="#handlePaneClick" prefHeight="164.0" prefWidth="166.0" style="-fx-border-radius: 0;" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-            <Button fx:id="but11" mnemonicParsing="false" onAction="#handlePaneClick" prefHeight="164.0" prefWidth="166.0" style="-fx-border-radius: 0;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Button fx:id="but00" mnemonicParsing="false" onAction="#handlePaneClick" prefHeight="164.0" prefWidth="166.0" style="-fx-border-radius: 0px; -fx-background-radius: 0px;" />
-            <Button fx:id="but22" mnemonicParsing="false" onAction="#handlePaneClick" prefHeight="164.0" prefWidth="166.0" style="-fx-border-radius: 0;" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <Button fx:id="but12" mnemonicParsing="false" onAction="#handlePaneClick" prefHeight="147.0" prefWidth="150.0" style="-fx-border-radius: 0; -fx-background-color: transparent; -fx-border-color: #66cc00;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Button fx:id="but10" mnemonicParsing="false" onAction="#handlePaneClick" prefHeight="164.0" prefWidth="166.0" style="-fx-border-radius: 0; -fx-background-color: transparent; -fx-border-color: #66cc00;" GridPane.columnIndex="1" />
+            <Button fx:id="but20" mnemonicParsing="false" onAction="#handlePaneClick" prefHeight="164.0" prefWidth="166.0" style="-fx-border-radius: 0; -fx-background-color: transparent; -fx-border-color: #66cc00;" GridPane.columnIndex="2" />
+            <Button fx:id="but01" mnemonicParsing="false" onAction="#handlePaneClick" prefHeight="164.0" prefWidth="166.0" style="-fx-border-radius: 0; -fx-background-color: transparent; -fx-border-color: #66cc00;" GridPane.rowIndex="1" />
+            <Button fx:id="but02" mnemonicParsing="false" onAction="#handlePaneClick" prefHeight="164.0" prefWidth="166.0" style="-fx-border-radius: 0; -fx-background-color: transparent; -fx-border-color: #66cc00;" GridPane.rowIndex="2" />
+            <Button fx:id="but21" mnemonicParsing="false" onAction="#handlePaneClick" prefHeight="164.0" prefWidth="166.0" style="-fx-border-radius: 0; -fx-background-color: transparent; -fx-border-color: #66cc00;" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Button fx:id="but11" mnemonicParsing="false" onAction="#handlePaneClick" prefHeight="164.0" prefWidth="166.0" style="-fx-border-radius: 0; -fx-background-color: transparent; -fx-border-color: #66cc00;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Button fx:id="but00" mnemonicParsing="false" onAction="#handlePaneClick" prefHeight="164.0" prefWidth="166.0" style="-fx-border-radius: 0px; -fx-border-color: #66cc00; -fx-background-color: transparent;" />
+            <Button fx:id="but22" mnemonicParsing="false" onAction="#handlePaneClick" prefHeight="164.0" prefWidth="166.0" style="-fx-border-radius: 0; -fx-background-color: transparent; -fx-border-color: #66cc00;" GridPane.columnIndex="2" GridPane.rowIndex="2" />
          </children>
       </GridPane>
       <MenuBar prefHeight="25.0" prefWidth="500.0">
