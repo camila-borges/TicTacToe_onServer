@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="500.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.101" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tictactoe.controllers.AnchorPaneInGameController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="500.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tictactoe.controllers.AnchorPaneInGameController">
    <children>
       <ImageView fitHeight="434.0" fitWidth="358.0" layoutX="29.0" layoutY="237.0" opacity="0.17" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -33,15 +33,15 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <ImageView fx:id="img00" fitHeight="136.0" fitWidth="136.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fx:id="img10" fitHeight="136.0" fitWidth="136.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
-            <ImageView fx:id="img20" fitHeight="136.0" fitWidth="136.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
-            <ImageView fx:id="img01" fitHeight="136.0" fitWidth="136.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
-            <ImageView fx:id="img11" fitHeight="136.0" fitWidth="136.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <ImageView fx:id="img21" fitHeight="136.0" fitWidth="136.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-            <ImageView fx:id="img02" fitHeight="136.0" fitWidth="136.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
-            <ImageView fx:id="img12" fitHeight="136.0" fitWidth="136.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <ImageView fx:id="img22" fitHeight="136.0" fitWidth="136.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <Button fx:id="but12" mnemonicParsing="false" onAction="#handlePaneClick" prefHeight="147.0" prefWidth="150.0" style="-fx-border-radius: 0;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Button fx:id="but10" mnemonicParsing="false" onAction="#handlePaneClick" prefHeight="164.0" prefWidth="166.0" style="-fx-border-radius: 0;" GridPane.columnIndex="1" />
+            <Button fx:id="but20" mnemonicParsing="false" onAction="#handlePaneClick" prefHeight="164.0" prefWidth="166.0" style="-fx-border-radius: 0;" GridPane.columnIndex="2" />
+            <Button fx:id="but01" mnemonicParsing="false" onAction="#handlePaneClick" prefHeight="164.0" prefWidth="166.0" style="-fx-border-radius: 0;" GridPane.rowIndex="1" />
+            <Button fx:id="but02" mnemonicParsing="false" onAction="#handlePaneClick" prefHeight="164.0" prefWidth="166.0" style="-fx-border-radius: 0;" GridPane.rowIndex="2" />
+            <Button fx:id="but21" mnemonicParsing="false" onAction="#handlePaneClick" prefHeight="164.0" prefWidth="166.0" style="-fx-border-radius: 0;" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Button fx:id="but11" mnemonicParsing="false" onAction="#handlePaneClick" prefHeight="164.0" prefWidth="166.0" style="-fx-border-radius: 0;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Button fx:id="but00" mnemonicParsing="false" onAction="#handlePaneClick" prefHeight="164.0" prefWidth="166.0" style="-fx-border-radius: 0px; -fx-background-radius: 0px;" />
+            <Button fx:id="but22" mnemonicParsing="false" onAction="#handlePaneClick" prefHeight="164.0" prefWidth="166.0" style="-fx-border-radius: 0;" GridPane.columnIndex="2" GridPane.rowIndex="2" />
          </children>
       </GridPane>
       <MenuBar prefHeight="25.0" prefWidth="500.0">
