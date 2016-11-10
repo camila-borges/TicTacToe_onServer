@@ -1,14 +1,18 @@
 package tictactoe.controllers;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import tictactoe.models.TicTacToe;
 
@@ -23,6 +27,12 @@ public class AnchorPaneInGameController implements Initializable {
 	@FXML
 	private Button but00, but01, but02, but10, but11, but12, but20, but21, but22;
 
+	private File fileX = new File("src/resources/angryBeaversX.png");
+	private Image imgX = new Image(fileX.toURI().toString());
+	
+	@FXML
+	private ImageView imgView22;
+	
 	private TicTacToe game = new TicTacToe();
 	
 	@Override
@@ -31,11 +41,6 @@ public class AnchorPaneInGameController implements Initializable {
 
 	@FXML
 	public void handlePauseButton() {
-
-	}
-
-	@FXML
-	public void handleQuitButton() {
 
 	}
 
@@ -56,10 +61,16 @@ public class AnchorPaneInGameController implements Initializable {
 		}else{
 			row = gridGame.getRowIndex(node);
 		}
-		clickedButton.setText(game.drawValue(row, column));			
+		//clickedButton.setText(game.drawValue(row, column));			
+		clickedButton.setStyle(game.drawValue(row, column));
 	}
 
 	public void handleGridPane() {
 
+	}
+	
+	public void handleQuitButton(ActionEvent e){
+		quitButton = (Button) e.getSource();
+		
 	}
 }

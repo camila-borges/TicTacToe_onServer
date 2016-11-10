@@ -15,7 +15,7 @@ public class TicTacToe {
 		}
 	}
 	
-	public String drawValue(int row, int column){
+	/*public String drawValue(int row, int column){
 		
 		//if ( !this.xTurn == player ) { return null; }
 		
@@ -31,6 +31,36 @@ public class TicTacToe {
 			return "O";
 		}
 		return gameBoard[row][column];
+	}*/
+	
+	public String drawValue(int row, int column){
+		
+		String defaultStyle = "-fx-background-position: center center; " +
+								"-fx-background-repeat: stretch;" +
+								"-fx-background-size: 130px 130px;"+
+								"-fx-background-color: transparent;"+
+								"-fx-border-color:  #66cc00";
+		
+		//if ( !this.xTurn == player ) { return null; }
+		
+		if (xTurn && !isGameEnded && gameBoard[row][column].equals("")){
+			gameBoard[row][column] = "X";
+			isGameComplete();
+			xTurn = false;
+		} else if (!xTurn && !isGameEnded && gameBoard[row][column].equals("")){
+			gameBoard[row][column] = "O";
+			isGameComplete();
+			xTurn = true;
+		}
+		
+		if (gameBoard[row][column] == "X"){
+			return "-fx-background-image: url('/resources/angryBeaversX.png'); " + defaultStyle;
+		} else if (gameBoard[row][column] == "O"){
+			return "-fx-background-image: url('/resources/angryBeaversO.png'); " + defaultStyle;
+		} else {
+			return defaultStyle;
+		}
+			
 	}
 	
 	public String[][] getGameBoard(){
