@@ -19,18 +19,18 @@ public class TicTacToe {
 		
 		//if ( !this.xTurn == player ) { return null; }
 		
-		if(xTurn && !isGameEnded){
+		if(xTurn && !isGameEnded && gameBoard[row][column].equals("")){
 			gameBoard[row][column] = "X";
 			isGameComplete();
 			xTurn = false;
 			return "X";
-		}else if(!xTurn && !isGameEnded){
+		}else if(!xTurn && !isGameEnded && gameBoard[row][column].equals("")){
 			gameBoard[row][column] = "O";
 			isGameComplete();
 			xTurn = true;
 			return "O";
 		}
-		return null;
+		return gameBoard[row][column];
 	}
 	
 	public String[][] getGameBoard(){
