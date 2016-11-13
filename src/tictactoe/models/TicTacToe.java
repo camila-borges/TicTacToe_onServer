@@ -33,7 +33,7 @@ public class TicTacToe {
 		return gameBoard[row][column];
 	}*/
 	
-	public String drawValue(int row, int column){
+	public String drawValue(int row, int column, boolean xTurn){
 		
 		String defaultStyle = "-fx-background-position: center center; " +
 								"-fx-background-repeat: stretch;" +

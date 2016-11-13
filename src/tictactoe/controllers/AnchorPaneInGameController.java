@@ -2,6 +2,8 @@ package tictactoe.controllers;
 
 import java.io.IOException;
 import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.lang.reflect.Field;
 import java.net.Socket;
 import java.net.URL;
 import java.net.UnknownHostException;
@@ -34,20 +36,35 @@ public class AnchorPaneInGameController implements Initializable {
 
 	private TicTacToe game = new TicTacToe();
 	private String[][] gameBoard;
+	String actualPlayer;
+	boolean player1, xTurn = true;
 	
 	Socket listenServer;
 	Scanner listener;
-	
+	PrintWriter sendCordinates;
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		try {
 			listenServer = new Socket("127.0.0.1", 5000);
 			listener = new Scanner(listenServer.getInputStream());
 			String isConnected = listener.nextLine();
-			if(isConnected.startsWith("CONNECTED")){
-				int port = Integer.parseInt(isConnected.split(" ")[1]);
-				listenServer.close();
+			if (isConnected.startsWith("CONNECTED")) {
+				int port = Integer.parseInt(isConnected.split(" ")[2]);
+				actualPlayer = isConnected.split(" ")[1];
+				if (actualPlayer.equals("PLAYER1")) {
+					player1 = true;
+					scoreP1Label.setText("Gabriel");
+				} else {
+					player1 = false;
+				}
+				// listenServer.close();
 				listenServer = new Socket("127.0.0.1", port);
+				System.out.println(port);
+				// listener = new Scanner(listenServer.getInputStream());
+				sendCordinates = new PrintWriter(listenServer.getOutputStream());
+				Listener listenerThread = new Listener();
+				listenerThread.start();
 			}
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
@@ -63,7 +80,6 @@ public class AnchorPaneInGameController implements Initializable {
 
 	@SuppressWarnings("static-access")
 	public void handlePaneClick(Event evt) {
-
 		Button clickedButton = (Button) evt.getTarget();
 
 		Node node = (Node) evt.getSource();
@@ -78,17 +94,15 @@ public class AnchorPaneInGameController implements Initializable {
 		} else {
 			row = gridGame.getRowIndex(node);
 		}
-		clickedButton.setStyle(game.drawValue(row, column));
-		
-		try {
-			PrintStream sendCordinates = new PrintStream(listenServer.getOutputStream());
+		if ((actualPlayer.equals("PLAYER1") && xTurn) || (actualPlayer.equals("PLAYER2") && !xTurn)) {
+			clickedButton.setStyle(game.drawValue(row, column, player1));
+	
 			sendCordinates.println(row + " " + column);
 			sendCordinates.flush();
-			sendCordinates.close();
-		} catch (IOException e) {
-			e.printStackTrace();
+			xTurn = !xTurn;
 		}
-		
+		// sendCordinates.close();
+
 	}
 
 	public void handleGridPane() {
@@ -98,5 +112,49 @@ public class AnchorPaneInGameController implements Initializable {
 	public void handleQuitButton(ActionEvent e) {
 		quitButton = (Button) e.getSource();
 
+	}
+
+	public void setButtonImage(String row, String column) {
+
+		Integer intRow = Integer.parseInt(row);
+		Integer intColumn = Integer.parseInt(column);
+
+		String clickedButton = "but" + row + column;
+		System.out.println(clickedButton);
+		Class<AnchorPaneInGameController> c = (Class<AnchorPaneInGameController>) this.getClass();
+		try {
+			Field f = c.getDeclaredField(clickedButton);
+			f.setAccessible(true);
+			Button realClickedButton = (Button) f.get(this);
+
+			realClickedButton.setStyle(game.drawValue(intRow, intColumn, !player1));
+			xTurn = !xTurn;
+		} catch (NoSuchFieldException | SecurityException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	class Listener extends Thread {
+
+		@Override
+		public void run() {
+			String getValue = "";
+			if (listener.hasNextLine()) {
+				getValue = listener.nextLine();
+			}
+			while (!getValue.equals("X") && !getValue.equals("O")) {
+				String[] cordinates = getValue.split(" ");
+				setButtonImage(cordinates[0], cordinates[1]);
+				System.out.println(getValue);
+				if (listener.hasNextLine()) {
+					getValue = listener.nextLine();
+				}
+			}
+		}
 	}
 }

@@ -18,6 +18,7 @@ public class TicTacToe extends Thread {
 	PrintStream player1Stream, player2Stream;
 	ServerSocket match;
 	GameBoard gameBoard;
+	Scanner player1Scanner, player2Scanner;
 	
 	static List<Integer> portsList = new ArrayList<Integer>();
 	
@@ -36,19 +37,23 @@ public class TicTacToe extends Thread {
 			
 			portsList.add(portNumber);
 			match = new ServerSocket(portNumber);
+			System.out.println("Servidor match iniciado, porta: " + portNumber);
 			
 			player1Stream = new PrintStream(player1.getOutputStream());
-			player1Stream.println("CONNECTED " + portNumber);
+			player1Stream.println("CONNECTED PLAYER1 " + portNumber);
 			player1Stream.flush();
-			player1Stream.close();
+			//player1Stream.close();
 			player2Stream = new PrintStream(player2.getOutputStream());
-			player2Stream.println("CONNECTED " + portNumber);
+			player2Stream.println("CONNECTED PLAYER2 " + portNumber);
 			player2Stream.flush();
-			player2Stream.close();
+			//player2Stream.close();
 			
 			player1 = match.accept();
+			System.out.println("Player 1 entrou na partida, porta " + portNumber);
 			player2 = match.accept();			
-			
+			System.out.println("Player 2 entrou na partida, porta " + portNumber);
+			player1Scanner = new Scanner(player1.getInputStream());
+			player2Scanner = new Scanner(player2.getInputStream());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -57,29 +62,29 @@ public class TicTacToe extends Thread {
 	@Override
 	public void run() {
 		try {
-			Scanner player1Scanner = new Scanner(player1.getInputStream());
-			Scanner player2Scanner = new Scanner(player2.getInputStream());
 			player1Stream = new PrintStream(player1.getOutputStream());
 			player2Stream = new PrintStream(player2.getOutputStream());
 			
-			while(gameBoard.isGameComplete().equals("N")){				
-				String player1Response = player1Scanner.nextLine();
-				String[] player1Position = player1Response.split(" "); 
-				String player2Response = player2Scanner.nextLine();
-				String[] player2Position = player2Response.split(" ");
-				
-				gameBoard.insertElement(player1Position[0], player1Position[1]);
-				gameBoard.insertElement(player2Position[0], player2Position[1]);
-				
-				player1Stream.println(player2Response);
-				player1Stream.flush();
+			while(gameBoard.isGameComplete().equals("N")){	
+				String player1Response = " ";
+				player1Response = player1Scanner.nextLine();
 				player2Stream.println(player1Response);
 				player2Stream.flush();
+				String[] player1Position = player1Response.split(" "); 
+				String player2Response = " ";
+				player2Response = player2Scanner.nextLine();;
+				player1Stream.println(player2Response);
+				player1Stream.flush();
+				String[] player2Position = player2Response.split(" ");
+								
+				gameBoard.insertElement(player1Position[0], player1Position[1]);
+				gameBoard.insertElement(player2Position[0], player2Position[1]);	
+				
+				
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-		
+		}		
 	}
 	
 }
