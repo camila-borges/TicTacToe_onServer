@@ -44,11 +44,11 @@ public class TicTacToe {
 		
 		if (xTurn && !isGameEnded && gameBoard[row][column].equals("")){
 			gameBoard[row][column] = "X";
-			//isGameComplete();
+			isGameComplete();
 			xTurn = false;
 		} else if (!xTurn && !isGameEnded && gameBoard[row][column].equals("")){
 			gameBoard[row][column] = "O";
-			//isGameComplete();
+			isGameComplete();
 			xTurn = true;
 		}
 		

@@ -153,7 +153,6 @@ public class AnchorPaneInGameController implements Initializable {
 			while (!getValue.equals("X") && !getValue.equals("O") && count < 9) {
 				String[] cordinates = getValue.split(" ");
 				setButtonImage(cordinates[0], cordinates[1]);
-				System.out.println(getValue);
 				if (listener.hasNextLine()) {
 					getValue = listener.nextLine();
 				}
