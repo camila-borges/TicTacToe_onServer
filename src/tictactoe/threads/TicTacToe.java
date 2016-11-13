@@ -43,11 +43,11 @@ public class TicTacToe extends Thread {
 			player1Stream = new PrintStream(player1.getOutputStream());
 			player1Stream.println("CONNECTED PLAYER1 " + portNumber);
 			player1Stream.flush();
-			//player1Stream.close();
+
 			player2Stream = new PrintStream(player2.getOutputStream());
 			player2Stream.println("CONNECTED PLAYER2 " + portNumber);
 			player2Stream.flush();
-			//player2Stream.close();
+			
 			
 			player1 = match.accept();
 			System.out.println("Player 1 entrou na partida, porta " + portNumber);
@@ -66,7 +66,8 @@ public class TicTacToe extends Thread {
 			player1Stream = new PrintStream(player1.getOutputStream());
 			player2Stream = new PrintStream(player2.getOutputStream());
 			
-			while(gameBoard.isGameComplete().equals("N")){	
+			while(gameBoard.isGameComplete().equals("N")){
+				//Player 1 turn
 				String player1Response = " ";
 				player1Response = player1Scanner.nextLine();				
 				String[] player1Position = player1Response.split(" "); 
@@ -74,6 +75,8 @@ public class TicTacToe extends Thread {
 				player2Stream.println(player1Response);
 				player2Stream.flush();
 				xTurn = false;
+				
+				//Player 2 turn
 				String player2Response = " ";
 				player2Response = player2Scanner.nextLine();
 				String[] player2Position = player2Response.split(" ");	
