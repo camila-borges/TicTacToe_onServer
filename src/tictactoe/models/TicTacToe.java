@@ -2,7 +2,6 @@ package tictactoe.models;
 
 public class TicTacToe {
 	private boolean isGameEnded = false;
-	private boolean xTurn = true;
 	private String[][] gameBoard = new String[3][3];
 	private int countX;
 	private int countO;
@@ -45,11 +44,11 @@ public class TicTacToe {
 		
 		if (xTurn && !isGameEnded && gameBoard[row][column].equals("")){
 			gameBoard[row][column] = "X";
-			isGameComplete();
+			//isGameComplete();
 			xTurn = false;
 		} else if (!xTurn && !isGameEnded && gameBoard[row][column].equals("")){
 			gameBoard[row][column] = "O";
-			isGameComplete();
+			//isGameComplete();
 			xTurn = true;
 		}
 		

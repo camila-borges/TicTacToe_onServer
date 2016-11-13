@@ -19,6 +19,7 @@ public class TicTacToe extends Thread {
 	ServerSocket match;
 	GameBoard gameBoard;
 	Scanner player1Scanner, player2Scanner;
+	boolean xTurn = true;
 	
 	static List<Integer> portsList = new ArrayList<Integer>();
 	
@@ -67,20 +68,19 @@ public class TicTacToe extends Thread {
 			
 			while(gameBoard.isGameComplete().equals("N")){	
 				String player1Response = " ";
-				player1Response = player1Scanner.nextLine();
+				player1Response = player1Scanner.nextLine();				
+				String[] player1Position = player1Response.split(" "); 
+				gameBoard.insertElement(player1Position[0], player1Position[1], xTurn);
 				player2Stream.println(player1Response);
 				player2Stream.flush();
-				String[] player1Position = player1Response.split(" "); 
+				xTurn = false;
 				String player2Response = " ";
-				player2Response = player2Scanner.nextLine();;
+				player2Response = player2Scanner.nextLine();
+				String[] player2Position = player2Response.split(" ");	
+				gameBoard.insertElement(player2Position[0], player2Position[1], xTurn);
 				player1Stream.println(player2Response);
 				player1Stream.flush();
-				String[] player2Position = player2Response.split(" ");
-								
-				gameBoard.insertElement(player1Position[0], player1Position[1]);
-				gameBoard.insertElement(player2Position[0], player2Position[1]);	
-				
-				
+				xTurn = true;				
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

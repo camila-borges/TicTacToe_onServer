@@ -2,7 +2,6 @@ package tictactoe.models;
 
 public class GameBoard {
 
-	private boolean xTurn = true;
 	private String[][] gameBoard = new String[3][3];
 	private int countX;
 	private int countO;
@@ -15,7 +14,7 @@ public class GameBoard {
 		}
 	}
 	
-	public void insertElement(String row, String column){
+	public void insertElement(String row, String column, boolean xTurn){
 		
 		int x = Integer.parseInt(row);
 		int y = Integer.parseInt(column);
