@@ -10,14 +10,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="700.0" prefWidth="500.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.71" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="700.0" prefWidth="500.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.71" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tictactoe.controllers.AnchorPaneWaitingScreenController">
    <children>
       <ImageView fitHeight="434.0" fitWidth="358.0" layoutX="29.0" layoutY="237.0" opacity="0.17" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../resources/ifsp.png" />
          </image>
       </ImageView>
-      <Button fx:id="quitButton" layoutX="360.0" layoutY="588.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="75.0" style="-fx-background-color: #ff1a1a; -fx-background-radius: 0px; -fx-border-radius: 0px; -fx-border-color: transparent;" text="Quit" textFill="WHITE">
+      <Button fx:id="quitButton" layoutX="360.0" layoutY="588.0" mnemonicParsing="false" onAction="#handleQuitButton" prefHeight="37.0" prefWidth="75.0" style="-fx-background-color: #ff1a1a; -fx-background-radius: 0px; -fx-border-radius: 0px; -fx-border-color: transparent;" text="Quit" textFill="WHITE">
          <font>
             <Font name="Century Gothic Bold" size="18.0" />
          </font>
@@ -41,7 +41,7 @@
             <Font name="Century Gothic Italic" size="24.0" />
          </font>
       </Label>
-      <Button fx:id="backButton" layoutX="67.0" layoutY="588.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="75.0" style="-fx-background-color: #66cc00; -fx-background-radius: 0px; -fx-border-radius: 0px; -fx-border-color: transparent;" text="Back" textFill="WHITE">
+      <Button fx:id="backButton" layoutX="67.0" layoutY="588.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="37.0" prefWidth="91.0" style="-fx-background-color: #66cc00; -fx-background-radius: 0px; -fx-border-radius: 0px; -fx-border-color: transparent;" text="Cancel" textFill="WHITE">
          <font>
             <Font name="Century Gothic Bold" size="18.0" />
          </font>
