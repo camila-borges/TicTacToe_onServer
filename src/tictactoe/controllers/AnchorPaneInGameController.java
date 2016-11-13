@@ -1,8 +1,12 @@
 package tictactoe.controllers;
 
-import java.io.File;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.net.Socket;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -11,7 +15,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import tictactoe.models.TicTacToe;
@@ -26,17 +29,31 @@ public class AnchorPaneInGameController implements Initializable {
 	private GridPane gridGame;
 	@FXML
 	private Button but00, but01, but02, but10, but11, but12, but20, but21, but22;
-
-	private File fileX = new File("src/resources/angryBeaversX.png");
-	private Image imgX = new Image(fileX.toURI().toString());
-	
 	@FXML
 	private ImageView imgView22;
-	
+
 	private TicTacToe game = new TicTacToe();
+	private String[][] gameBoard;
+	
+	Socket listenServer;
+	Scanner listener;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		try {
+			listenServer = new Socket("127.0.0.1", 5000);
+			listener = new Scanner(listenServer.getInputStream());
+			String isConnected = listener.nextLine();
+			if(isConnected.startsWith("CONNECTED")){
+				int port = Integer.parseInt(isConnected.split(" ")[1]);
+				listenServer.close();
+				listenServer = new Socket("127.0.0.1", port);
+			}
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@FXML
@@ -45,32 +62,41 @@ public class AnchorPaneInGameController implements Initializable {
 	}
 
 	@SuppressWarnings("static-access")
-	public void handlePaneClick(Event evt){
-		
+	public void handlePaneClick(Event evt) {
+
 		Button clickedButton = (Button) evt.getTarget();
-		
-		Node node = (Node)evt.getSource();
+
+		Node node = (Node) evt.getSource();
 		int column, row;
-		if(gridGame.getColumnIndex(node) == null){
+		if (gridGame.getColumnIndex(node) == null) {
 			column = 0;
-		}else{
+		} else {
 			column = gridGame.getColumnIndex(node);
 		}
-		if(gridGame.getRowIndex(node) == null){
+		if (gridGame.getRowIndex(node) == null) {
 			row = 0;
-		}else{
+		} else {
 			row = gridGame.getRowIndex(node);
 		}
-		//clickedButton.setText(game.drawValue(row, column));			
 		clickedButton.setStyle(game.drawValue(row, column));
+		
+		try {
+			PrintStream sendCordinates = new PrintStream(listenServer.getOutputStream());
+			sendCordinates.println(row + " " + column);
+			sendCordinates.flush();
+			sendCordinates.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	public void handleGridPane() {
 
 	}
-	
-	public void handleQuitButton(ActionEvent e){
+
+	public void handleQuitButton(ActionEvent e) {
 		quitButton = (Button) e.getSource();
-		
+
 	}
 }
