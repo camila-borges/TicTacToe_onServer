@@ -42,6 +42,7 @@ public class AnchorPaneInGameController implements Initializable {
 	Socket listenServer;
 	Scanner listener;
 	PrintWriter sendCordinates;
+	int count = 0;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -80,6 +81,7 @@ public class AnchorPaneInGameController implements Initializable {
 
 	@SuppressWarnings("static-access")
 	public void handlePaneClick(Event evt) {
+		count++;
 		Button clickedButton = (Button) evt.getTarget();
 
 		Node node = (Node) evt.getSource();
@@ -115,7 +117,8 @@ public class AnchorPaneInGameController implements Initializable {
 	}
 
 	public void setButtonImage(String row, String column) {
-
+		
+		count++;
 		Integer intRow = Integer.parseInt(row);
 		Integer intColumn = Integer.parseInt(column);
 
@@ -147,7 +150,7 @@ public class AnchorPaneInGameController implements Initializable {
 			if (listener.hasNextLine()) {
 				getValue = listener.nextLine();
 			}
-			while (!getValue.equals("X") && !getValue.equals("O")) {
+			while (!getValue.equals("X") && !getValue.equals("O") && count < 9) {
 				String[] cordinates = getValue.split(" ");
 				setButtonImage(cordinates[0], cordinates[1]);
 				System.out.println(getValue);
