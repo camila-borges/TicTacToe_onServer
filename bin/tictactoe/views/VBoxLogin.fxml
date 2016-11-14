@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8.0.71" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tictactoe.controllers.VBoxLoginController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8.0.91" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tictactoe.controllers.VBoxLoginController">
    <children>
       <AnchorPane prefHeight="700.0" prefWidth="500.0" style="-fx-background-color: white;">
          <children>
@@ -35,7 +35,7 @@
                   </Label>
                </children>
             </Group>
-            <Button fx:id="loginButton" layoutX="362.0" layoutY="588.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="89.0" style="-fx-background-color: #66cc00; -fx-background-radius: 0px; -fx-border-radius: 0px; -fx-border-color: transparent;" text="Login!" textFill="WHITE">
+            <Button fx:id="loginButton" layoutX="362.0" layoutY="588.0" mnemonicParsing="false" onAction="#handleLoginButton" prefHeight="37.0" prefWidth="89.0" style="-fx-background-color: #66cc00; -fx-background-radius: 0px; -fx-border-radius: 0px; -fx-border-color: transparent;" text="Login!" textFill="WHITE">
                <font>
                   <Font name="Century Gothic Bold" size="18.0" />
                </font>

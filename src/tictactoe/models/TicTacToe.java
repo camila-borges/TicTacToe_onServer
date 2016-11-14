@@ -14,24 +14,6 @@ public class TicTacToe {
 		}
 	}
 	
-	/*public String drawValue(int row, int column){
-		
-		//if ( !this.xTurn == player ) { return null; }
-		
-		if(xTurn && !isGameEnded && gameBoard[row][column].equals("")){
-			gameBoard[row][column] = "X";
-			isGameComplete();
-			xTurn = false;
-			return "X";
-		}else if(!xTurn && !isGameEnded && gameBoard[row][column].equals("")){
-			gameBoard[row][column] = "O";
-			isGameComplete();
-			xTurn = true;
-			return "O";
-		}
-		return gameBoard[row][column];
-	}*/
-	
 	public String drawValue(int row, int column, boolean xTurn){
 		
 		String defaultStyle = "-fx-background-position: center center; " +
@@ -39,8 +21,6 @@ public class TicTacToe {
 								"-fx-background-size: 130px 130px;"+
 								"-fx-background-color: transparent;"+
 								"-fx-border-color:  #66cc00";
-		
-		//if ( !this.xTurn == player ) { return null; }
 		
 		if (xTurn && !isGameEnded && gameBoard[row][column].equals("")){
 			gameBoard[row][column] = "X";
@@ -68,7 +48,7 @@ public class TicTacToe {
 	
 	public void isGameComplete(){
 		
-		//Verifica as linhas
+		//Rows verifier
 		for(int i = 0; i < 3; i++){
 			countX = countO = 0;
 			for (int j = 0; j < 3; j++) {
@@ -85,7 +65,7 @@ public class TicTacToe {
 			}
 		}
 		
-		//Verifica as colunas
+		//Columns verifier
 		for(int i = 0; i < 3; i++){
 			countX = countO = 0;
 			for (int j = 0; j < 3; j++) {
@@ -102,7 +82,7 @@ public class TicTacToe {
 			}
 		}
 		
-		//Verifica as Diagonais
+		//Diagonals verifier
 		if((gameBoard[0][0] == "X" && gameBoard[1][1] == "X" && gameBoard[2][2] == "X") || 
 				(gameBoard[0][0] == "O" && gameBoard[1][1] == "O" && gameBoard[2][2] == "O")){
 			isGameEnded = true;

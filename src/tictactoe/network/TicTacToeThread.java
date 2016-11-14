@@ -1,4 +1,4 @@
-package tictactoe.threads;
+package tictactoe.network;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -9,23 +9,20 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
-import tictactoe.models.GameBoard;
-
-public class TicTacToe extends Thread {
+public class TicTacToeThread extends Thread {
 
 	Socket player1;
 	Socket player2;
 	PrintStream player1Stream, player2Stream;
 	ServerSocket match;
-	GameBoard gameBoard;
 	Scanner player1Scanner, player2Scanner;
 	boolean xTurn = true;
 	boolean isGameComplete = false;
 
 	static List<Integer> portsList = new ArrayList<Integer>();
 
-	public TicTacToe(Socket player1, Socket player2) {
-		gameBoard = new GameBoard();
+	public TicTacToeThread(Socket player1, Socket player2) {
+		//gameBoard = new GameBoard();
 		this.player1 = player1;
 		this.player2 = player2;
 
@@ -66,12 +63,11 @@ public class TicTacToe extends Thread {
 			player1Stream = new PrintStream(player1.getOutputStream());
 			player2Stream = new PrintStream(player2.getOutputStream());
 
-			while (gameBoard.isGameComplete().equals("N")) {
+			while (true) {
 				// Player 1 turn
 				String player1Response = " ";
 				player1Response = player1Scanner.nextLine();
-				String[] player1Position = player1Response.split(" ");
-				gameBoard.insertElement(player1Position[0], player1Position[1], xTurn);
+				String[] player1Position = player1Response.split(" ");			
 				player2Stream.println(player1Response);
 				player2Stream.flush();
 				xTurn = false;
@@ -79,12 +75,10 @@ public class TicTacToe extends Thread {
 				// Player 2 turn
 				String player2Response = " ";
 				player2Response = player2Scanner.nextLine();
-				String[] player2Position = player2Response.split(" ");
-				gameBoard.insertElement(player2Position[0], player2Position[1], xTurn);
+				String[] player2Position = player2Response.split(" ");			
 				player1Stream.println(player2Response);
 				player1Stream.flush();
 				xTurn = true;
-
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

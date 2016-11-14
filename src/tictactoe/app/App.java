@@ -10,13 +10,13 @@ public class App extends Application{
 
 	@Override
 	public void start(Stage stage) throws Exception {
-		Parent root = FXMLLoader.load(getClass().getResource("/tictactoe/views/AnchorPaneInGame.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/tictactoe/views/VBoxLogin.fxml"));
 
         stage.setResizable(false);
         stage.setScene(new Scene(root));
         stage.sizeToScene();
 
-        stage.setTitle("TicTacToe");
+        stage.setTitle("TicTacToeThread");
         stage.show();
         stage.toFront();
 	}
