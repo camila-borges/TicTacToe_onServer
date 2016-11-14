@@ -34,7 +34,6 @@ public class AnchorPaneInGameController implements Initializable {
 	private ImageView imgView22;
 
 	private TicTacToe game = new TicTacToe();
-	private String[][] gameBoard;
 	String actualPlayer;
 	boolean player1, xTurn = true;
 
