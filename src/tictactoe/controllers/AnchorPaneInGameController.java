@@ -134,7 +134,7 @@ public class AnchorPaneInGameController implements Initializable {
 					nicknameP2Label.setText(playerName);
 				}
 
-				listenServer = new Socket("127.0.0.1", port);
+				listenServer = new Socket(ip, port);
 				sendCordinates = new PrintWriter(listenServer.getOutputStream());
 				Listener listenerThread = new Listener();
 				listenerThread.start();
