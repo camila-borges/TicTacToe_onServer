@@ -67,6 +67,7 @@ public class TicTacToeThread extends Thread {
 			player2Stream = new PrintStream(player2.getOutputStream());
 
 			while (true) {
+				this.wait(1500);
 				// Player 1 turn
 				String player1Response = " ";
 				player1Response = player1Scanner.nextLine();
@@ -81,7 +82,7 @@ public class TicTacToeThread extends Thread {
 				player1Stream.flush();
 				xTurn = true;
 			}
-		} catch (IOException e) {
+		} catch (IOException | InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
