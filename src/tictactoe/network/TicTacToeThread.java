@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class TicTacToeThread extends Thread {
 
@@ -36,7 +37,7 @@ public class TicTacToeThread extends Thread {
 			portsList.add(portNumber);
 			match = new ServerSocket(portNumber);
 			System.out.println("Servidor match iniciado, porta: " + portNumber);
-
+			TimeUnit.SECONDS.sleep(2);
 			player1Stream = new PrintStream(player1.getOutputStream());
 			player1Stream.println("CONNECTED PLAYER1 " + portNumber + " " + player2Name);
 			player1Stream.flush();
@@ -57,6 +58,9 @@ public class TicTacToeThread extends Thread {
 			player2Scanner = new Scanner(player2.getInputStream());
 		} catch (IOException e) {
 			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
@@ -67,7 +71,6 @@ public class TicTacToeThread extends Thread {
 			player2Stream = new PrintStream(player2.getOutputStream());
 
 			while (true) {
-				this.sleep(1500);
 				// Player 1 turn
 				String player1Response = " ";
 				player1Response = player1Scanner.nextLine();
@@ -82,7 +85,7 @@ public class TicTacToeThread extends Thread {
 				player1Stream.flush();
 				xTurn = true;
 			}
-		} catch (IOException | InterruptedException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
