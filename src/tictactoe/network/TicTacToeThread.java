@@ -67,7 +67,7 @@ public class TicTacToeThread extends Thread {
 			player2Stream = new PrintStream(player2.getOutputStream());
 
 			while (true) {
-				this.wait(1500);
+				this.sleep(1500);
 				// Player 1 turn
 				String player1Response = " ";
 				player1Response = player1Scanner.nextLine();
