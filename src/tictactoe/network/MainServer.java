@@ -9,10 +9,11 @@ import java.util.Scanner;
 
 public class MainServer {
 
+	@SuppressWarnings("resource")
 	public static void main(String[] args) {
 		try {
 			ServerSocket server = new ServerSocket(5000);
-			System.out.println("Servidor ligado porta: 5000!" + "IP: " + Inet4Address.getLocalHost().getHostAddress());
+			System.out.println("Servidor ligado porta: 5000!" + "\nIP: " + Inet4Address.getLocalHost().getHostAddress());
 			ArrayList<TicTacToeThread> connectedList = new ArrayList<>();
 			Scanner player1Scan, player2Scan;
 			
@@ -31,6 +32,6 @@ public class MainServer {
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-		}		
+		}
 	}
 }

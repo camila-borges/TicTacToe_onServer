@@ -22,7 +22,6 @@ public class TicTacToeThread extends Thread {
 	static List<Integer> portsList = new ArrayList<Integer>();
 
 	public TicTacToeThread(Socket player1, Socket player2, String player1Name, String player2Name) {
-		//gameBoard = new GameBoard();
 		this.player1 = player1;
 		this.player2 = player2;
 

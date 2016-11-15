@@ -1,13 +1,13 @@
 package tictactoe.models;
 
-public class TicTacToe {
+public class TicTacToeGameControl {
 	private boolean isGameEnded = false;
 	private String[][] gameBoard = new String[3][3];
 	private int countX;
 	private int countO;
 	private String winner;
 
-	public TicTacToe() {
+	public TicTacToeGameControl() {
 		for (int i = 0; i < gameBoard.length; i++) {
 			for (int j = 0; j < gameBoard.length; j++) {
 				this.gameBoard[i][j] = "";

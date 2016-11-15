@@ -10,7 +10,6 @@ import java.util.ResourceBundle;
 import java.util.Scanner;
 
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -21,7 +20,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import tictactoe.models.TicTacToe;
+import javafx.stage.Stage;
+import tictactoe.models.TicTacToeGameControl;
 
 public class AnchorPaneInGameController implements Initializable {
 
@@ -36,7 +36,7 @@ public class AnchorPaneInGameController implements Initializable {
 	@FXML
 	private ImageView imgView22;
 
-	private TicTacToe game = new TicTacToe();
+	private TicTacToeGameControl game = new TicTacToeGameControl();
 	String actualPlayer;
 	boolean player1, xTurn = true;
 
@@ -44,14 +44,8 @@ public class AnchorPaneInGameController implements Initializable {
 	PrintWriter writeToMainServer;
 	Scanner listener;
 	PrintWriter sendCordinates;
-	int count = 0;
 
 	public void setDialogStage(String ip, String playerName) {
-
-		if (playerName.isEmpty()) {
-			playerName = "Player 1";
-		}
-
 		try {
 			listenServer = new Socket(ip, 5000);
 			writeToMainServer = new PrintWriter(listenServer.getOutputStream());
@@ -114,60 +108,22 @@ public class AnchorPaneInGameController implements Initializable {
 		if (((actualPlayer.equals("PLAYER1") && xTurn) || (actualPlayer.equals("PLAYER2") && !xTurn))
 				&& clickedButton.getStyle().startsWith("-fx-border")) {
 			clickedButton.setStyle(game.drawValue(row, column, player1));
-			count++;
 			sendCordinates.println(row + " " + column);
 			sendCordinates.flush();
 			xTurn = !xTurn;
-			if (game.getIsGameEnded()) {
-				sendCordinates.println("FINISHED");
-				sendCordinates.flush();
-				but00.setDisable(true);
-				but01.setDisable(true);
-				but02.setDisable(true);
-				but10.setDisable(true);
-				but11.setDisable(true);
-				but12.setDisable(true);
-				but20.setDisable(true);
-				but21.setDisable(true);
-				but22.setDisable(true);
-				
-				Alert winnerAlert = new Alert(AlertType.INFORMATION);
-				if (game.getWinner().equals("X")) {
-					if (actualPlayer.equals("PLAYER1")) {
-						winnerAlert.setTitle("VICTORY!");
-						winnerAlert.setHeaderText("YOU WIN!");
-						winnerAlert.setContentText("CONGRATULATIONS! YOU'RE AWESOME!");
-					} else {
-						winnerAlert.setTitle("DEFEAT!");
-						winnerAlert.setHeaderText("YOU LOSE!");
-						winnerAlert.setContentText("DON'T GIVE UP! TRY HARDER!");
-					}
-				} else if (game.getWinner().equals("O")) {
-					if (actualPlayer.equals("PLAYER2")) {
-						winnerAlert.setTitle("VICTORY!");
-						winnerAlert.setHeaderText("YOU WIN!");
-						winnerAlert.setContentText("CONGRATULATIONS! YOU'RE AWESOME!");
-					} else {
-						winnerAlert.setTitle("DEFEAT!");
-						winnerAlert.setHeaderText("YOU LOSE!");
-						winnerAlert.setContentText("DON'T GIVE UP! TRY HARDER!");
-					}
-				}
-				winnerAlert.show();
-			}
+			verifyGameState();
 		}
 
 	}
 
 	@FXML
-	public void handleQuitButton(ActionEvent e) {
-		quitButton = (Button) e.getSource();
-
+	public void handleQuitButton() {
+		Stage stage = (Stage) quitButton.getScene().getWindow();
+		stage.close();
 	}
 
-	public void setButtonImage(String row, String column) {
+	public void refreshForOpponent(String row, String column) {
 
-		count++;
 		Integer intRow = Integer.parseInt(row);
 		Integer intColumn = Integer.parseInt(column);
 
@@ -181,50 +137,7 @@ public class AnchorPaneInGameController implements Initializable {
 
 			realClickedButton.setStyle(game.drawValue(intRow, intColumn, !player1));
 			xTurn = !xTurn;
-			if (game.getIsGameEnded()) {
-				sendCordinates.println("FINISHED");
-				sendCordinates.flush();
-				but00.setDisable(true);
-				but01.setDisable(true);
-				but02.setDisable(true);
-				but10.setDisable(true);
-				but11.setDisable(true);
-				but12.setDisable(true);
-				but20.setDisable(true);
-				but21.setDisable(true);
-				but22.setDisable(true);
-
-				Platform.runLater(new Runnable(){
-					
-					@Override
-					public void run() {
-						
-						Alert winnerAlert = new Alert(AlertType.INFORMATION);
-						if (game.getWinner().equals("X")) {
-							if (actualPlayer.equals("PLAYER1")) {
-								winnerAlert.setTitle("VICTORY!");
-								winnerAlert.setHeaderText("YOU WIN!");
-								winnerAlert.setContentText("CONGRATULATIONS! YOU'RE AWESOME!");
-							} else {
-								winnerAlert.setTitle("DEFEAT!");
-								winnerAlert.setHeaderText("YOU LOSE!");
-								winnerAlert.setContentText("DON'T GIVE UP! TRY HARDER!");
-							}
-						} else if (game.getWinner().equals("O")) {
-							if (actualPlayer.equals("PLAYER2")) {
-								winnerAlert.setTitle("VICTORY!");
-								winnerAlert.setHeaderText("YOU WIN!");
-								winnerAlert.setContentText("CONGRATULATIONS! YOU'RE AWESOME!");
-							} else {
-								winnerAlert.setTitle("DEFEAT!");
-								winnerAlert.setHeaderText("YOU LOSE!");
-								winnerAlert.setContentText("DON'T GIVE UP! TRY HARDER!");
-							}
-						}
-						winnerAlert.show();						
-					}
-				});				
-			}
+			verifyGameState();
 		} catch (NoSuchFieldException | SecurityException e) {
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
@@ -233,6 +146,54 @@ public class AnchorPaneInGameController implements Initializable {
 			e.printStackTrace();
 		}
 
+	}
+
+	public void verifyGameState() {
+		if (game.getIsGameEnded()) {
+			sendCordinates.println("FINISHED");
+			sendCordinates.flush();
+			but00.setDisable(true);
+			but01.setDisable(true);
+			but02.setDisable(true);
+			but10.setDisable(true);
+			but11.setDisable(true);
+			but12.setDisable(true);
+			but20.setDisable(true);
+			but21.setDisable(true);
+			but22.setDisable(true);
+
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+
+					Alert winnerAlert = new Alert(AlertType.INFORMATION);
+					if (game.getWinner().equals("X")) {
+						if (actualPlayer.equals("PLAYER1")) {
+							winnerAlert.setTitle("VICTORY!");
+							winnerAlert.setHeaderText("YOU WIN!");
+							winnerAlert.setContentText("CONGRATULATIONS! YOU'RE AWESOME!");
+						} else {
+							winnerAlert.setTitle("DEFEAT!");
+							winnerAlert.setHeaderText("YOU LOSE!");
+							winnerAlert.setContentText("DON'T GIVE UP! TRY HARDER!");
+						}
+					} else if (game.getWinner().equals("O")) {
+						if (actualPlayer.equals("PLAYER2")) {
+							winnerAlert.setTitle("VICTORY!");
+							winnerAlert.setHeaderText("YOU WIN!");
+							winnerAlert.setContentText("CONGRATULATIONS! YOU'RE AWESOME!");
+						} else {
+							winnerAlert.setTitle("DEFEAT!");
+							winnerAlert.setHeaderText("YOU LOSE!");
+							winnerAlert.setContentText("DON'T GIVE UP! TRY HARDER!");
+						}
+					}
+					winnerAlert.showAndWait();
+					Stage stage = (Stage) quitButton.getScene().getWindow();
+					stage.close();
+				}
+			});
+		}
 	}
 
 	class Listener extends Thread {
@@ -245,7 +206,7 @@ public class AnchorPaneInGameController implements Initializable {
 			}
 			while (!getValue.contains("FINISHED")) {
 				String[] cordinates = getValue.split(" ");
-				setButtonImage(cordinates[0], cordinates[1]);
+				refreshForOpponent(cordinates[0], cordinates[1]);
 				if (listener.hasNextLine()) {
 					getValue = listener.nextLine();
 				}
