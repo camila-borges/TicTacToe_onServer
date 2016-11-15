@@ -66,8 +66,14 @@ public class AnchorPaneInGameController implements Initializable {
 					nicknameP1Label.setText(isConnected.split(" ")[3]);
 				}
 
+				writeToMainServer.close();
+				listener.close();
+				listenServer.close();
+				
 				listenServer = new Socket(ip, port);
 				sendCordinates = new PrintWriter(listenServer.getOutputStream());
+				listener = new Scanner(listenServer.getInputStream());
+				
 				Listener listenerThread = new Listener();
 				listenerThread.start();
 			}
