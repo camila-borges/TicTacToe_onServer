@@ -205,6 +205,13 @@ public class AnchorPaneInGameController implements Initializable {
 		@Override
 		public void run() {
 			String getValue = "";
+			while (!listener.hasNextLine()) {
+				try {
+					sleep(250L);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
 			if (listener.hasNextLine()) {
 				getValue = listener.nextLine();
 			}
