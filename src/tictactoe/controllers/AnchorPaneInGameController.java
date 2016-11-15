@@ -208,7 +208,7 @@ public class AnchorPaneInGameController implements Initializable {
 			if (listener.hasNextLine()) {
 				getValue = listener.nextLine();
 			}
-			while (!getValue.contains("FINISHED")) {
+			while (!getValue.contains("FINISHED") && !getValue.contains("CONNECTED")) {
 				String[] cordinates = getValue.split(" ");
 				refreshForOpponent(cordinates[0], cordinates[1]);
 				if (listener.hasNextLine()) {
