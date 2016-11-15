@@ -113,10 +113,10 @@ public class TicTacToeGameControl {
 			winner = "O";
 		}
 		
-		if(gameCounter == 9 && !isGameEnded){
+		/*if(gameCounter == 9 && !isGameEnded){
 			isGameEnded = true;
 			winner = "N";			
-		}
+		}*/
 		return;
 	}
 	
