@@ -118,6 +118,9 @@ public class TicTacToeGameControl {
 	}
 
 	public String getWinner() {
+		if(winner.isEmpty()){
+			return "N";
+		}
 		return winner;
 	}
 }

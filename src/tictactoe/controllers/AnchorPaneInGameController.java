@@ -187,6 +187,10 @@ public class AnchorPaneInGameController implements Initializable {
 							winnerAlert.setHeaderText("YOU LOSE!");
 							winnerAlert.setContentText("DON'T GIVE UP! TRY HARDER!");
 						}
+					} else if (game.getWinner().equals("N")){
+						winnerAlert.setTitle("DRAW");
+						winnerAlert.setHeaderText("IT'S A DRAW!");
+						winnerAlert.setContentText("DON'T GIVE UP! TRY HARDER!");
 					}
 					winnerAlert.showAndWait();
 					Stage stage = (Stage) quitButton.getScene().getWindow();
