@@ -6,6 +6,7 @@ public class TicTacToeGameControl {
 	private int countX;
 	private int countO;
 	private String winner;
+	private int gameCounter = 0;
 
 	public TicTacToeGameControl() {
 		for (int i = 0; i < gameBoard.length; i++) {
@@ -23,10 +24,12 @@ public class TicTacToeGameControl {
 
 		if (xTurn && !isGameEnded && gameBoard[row][column].equals("")) {
 			gameBoard[row][column] = "X";
+			gameCounter++;
 			isGameComplete();
 			xTurn = false;
 		} else if (!xTurn && !isGameEnded && gameBoard[row][column].equals("")) {
 			gameBoard[row][column] = "O";
+			gameCounter++;
 			isGameComplete();
 			xTurn = true;
 		}
@@ -109,18 +112,19 @@ public class TicTacToeGameControl {
 			isGameEnded = true;
 			winner = "O";
 		}
-
+		
+		if(gameCounter == 9 && !isGameEnded){
+			isGameEnded = true;
+			winner = "N";			
+		}
 		return;
 	}
-
+	
 	public boolean getIsGameEnded() {
 		return this.isGameEnded;
 	}
 
 	public String getWinner() {
-		if(winner.isEmpty()){
-			return "N";
-		}
 		return winner;
 	}
 }
