@@ -46,7 +46,7 @@ public class TicTacToeThread extends Thread {
 			player2Stream.flush();
 
 			player1 = match.accept();
-			System.out.println("Player 1 entrou na partida, porta " + portNumber);
+			System.out.println("Player 1 entrou na partida, porta " + portNumber + player1Name);
 			player2 = match.accept();
 			//player2Stream.println("READY");
 			//player2Stream.flush();
@@ -69,19 +69,29 @@ public class TicTacToeThread extends Thread {
 			while (true) {
 				// Player 1 turn
 				String player1Response = " ";
-				player1Response = player1Scanner.nextLine();
-				player2Stream.println(player1Response);
-				player2Stream.flush();
-				xTurn = false;
+				while (xTurn) {
+					while (!player1Scanner.hasNextLine()) {
+						sleep(250L);
+					}
+					player1Response = player1Scanner.nextLine();
+					player2Stream.println(player1Response);
+					player2Stream.flush();
+					xTurn = false;
+				}
 
 				// Player 2 turn
 				String player2Response = " ";
-				player2Response = player2Scanner.nextLine();
-				player1Stream.println(player2Response);
-				player1Stream.flush();
-				xTurn = true;
+				while (!xTurn) {
+					while (!player1Scanner.hasNextLine()) {
+						sleep(250L);
+					}
+					player2Response = player2Scanner.nextLine();
+					player1Stream.println(player2Response);
+					player1Stream.flush();
+					xTurn = true;
+				}
 			}
-		} catch (IOException e) {
+		} catch (IOException | InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
