@@ -9,11 +9,14 @@ import java.net.UnknownHostException;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -38,9 +41,48 @@ public class AnchorPaneInGameController implements Initializable {
 	boolean player1, xTurn = true;
 
 	Socket listenServer;
+	PrintWriter writeToMainServer;
 	Scanner listener;
 	PrintWriter sendCordinates;
 	int count = 0;
+
+	public void setDialogStage(String ip, String playerName) {
+
+		if (playerName.isEmpty()) {
+			playerName = "Player 1";
+		}
+
+		try {
+			listenServer = new Socket(ip, 5000);
+			writeToMainServer = new PrintWriter(listenServer.getOutputStream());
+			writeToMainServer.println(playerName);
+			writeToMainServer.flush();
+			listener = new Scanner(listenServer.getInputStream());
+			String isConnected = listener.nextLine();
+			if (isConnected.startsWith("CONNECTED")) {
+				int port = Integer.parseInt(isConnected.split(" ")[2]);
+				actualPlayer = isConnected.split(" ")[1];
+				if (actualPlayer.equals("PLAYER1")) {
+					player1 = true;
+					nicknameP1Label.setText(playerName);
+					nicknameP2Label.setText(isConnected.split(" ")[3]);
+				} else {
+					player1 = false;
+					nicknameP2Label.setText(playerName);
+					nicknameP1Label.setText(isConnected.split(" ")[3]);
+				}
+
+				listenServer = new Socket(ip, port);
+				sendCordinates = new PrintWriter(listenServer.getOutputStream());
+				Listener listenerThread = new Listener();
+				listenerThread.start();
+			}
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -51,7 +93,7 @@ public class AnchorPaneInGameController implements Initializable {
 	public void handlePauseButton() {
 
 	}
-	
+
 	@FXML
 	@SuppressWarnings("static-access")
 	public void handlePaneClick(Event evt) {
@@ -76,9 +118,47 @@ public class AnchorPaneInGameController implements Initializable {
 			sendCordinates.println(row + " " + column);
 			sendCordinates.flush();
 			xTurn = !xTurn;
+			if (game.getIsGameEnded()) {
+				sendCordinates.println("FINISHED");
+				sendCordinates.flush();
+				but00.setDisable(true);
+				but01.setDisable(true);
+				but02.setDisable(true);
+				but10.setDisable(true);
+				but11.setDisable(true);
+				but12.setDisable(true);
+				but20.setDisable(true);
+				but21.setDisable(true);
+				but22.setDisable(true);
+				
+				Alert winnerAlert = new Alert(AlertType.INFORMATION);
+				if (game.getWinner().equals("X")) {
+					if (actualPlayer.equals("PLAYER1")) {
+						winnerAlert.setTitle("VICTORY!");
+						winnerAlert.setHeaderText("YOU WIN!");
+						winnerAlert.setContentText("CONGRATULATIONS! YOU'RE AWESOME!");
+					} else {
+						winnerAlert.setTitle("DEFEAT!");
+						winnerAlert.setHeaderText("YOU LOSE!");
+						winnerAlert.setContentText("DON'T GIVE UP! TRY HARDER!");
+					}
+				} else if (game.getWinner().equals("O")) {
+					if (actualPlayer.equals("PLAYER2")) {
+						winnerAlert.setTitle("VICTORY!");
+						winnerAlert.setHeaderText("YOU WIN!");
+						winnerAlert.setContentText("CONGRATULATIONS! YOU'RE AWESOME!");
+					} else {
+						winnerAlert.setTitle("DEFEAT!");
+						winnerAlert.setHeaderText("YOU LOSE!");
+						winnerAlert.setContentText("DON'T GIVE UP! TRY HARDER!");
+					}
+				}
+				winnerAlert.show();
+			}
 		}
+
 	}
-	
+
 	@FXML
 	public void handleQuitButton(ActionEvent e) {
 		quitButton = (Button) e.getSource();
@@ -101,6 +181,50 @@ public class AnchorPaneInGameController implements Initializable {
 
 			realClickedButton.setStyle(game.drawValue(intRow, intColumn, !player1));
 			xTurn = !xTurn;
+			if (game.getIsGameEnded()) {
+				sendCordinates.println("FINISHED");
+				sendCordinates.flush();
+				but00.setDisable(true);
+				but01.setDisable(true);
+				but02.setDisable(true);
+				but10.setDisable(true);
+				but11.setDisable(true);
+				but12.setDisable(true);
+				but20.setDisable(true);
+				but21.setDisable(true);
+				but22.setDisable(true);
+
+				Platform.runLater(new Runnable(){
+					
+					@Override
+					public void run() {
+						
+						Alert winnerAlert = new Alert(AlertType.INFORMATION);
+						if (game.getWinner().equals("X")) {
+							if (actualPlayer.equals("PLAYER1")) {
+								winnerAlert.setTitle("VICTORY!");
+								winnerAlert.setHeaderText("YOU WIN!");
+								winnerAlert.setContentText("CONGRATULATIONS! YOU'RE AWESOME!");
+							} else {
+								winnerAlert.setTitle("DEFEAT!");
+								winnerAlert.setHeaderText("YOU LOSE!");
+								winnerAlert.setContentText("DON'T GIVE UP! TRY HARDER!");
+							}
+						} else if (game.getWinner().equals("O")) {
+							if (actualPlayer.equals("PLAYER2")) {
+								winnerAlert.setTitle("VICTORY!");
+								winnerAlert.setHeaderText("YOU WIN!");
+								winnerAlert.setContentText("CONGRATULATIONS! YOU'RE AWESOME!");
+							} else {
+								winnerAlert.setTitle("DEFEAT!");
+								winnerAlert.setHeaderText("YOU LOSE!");
+								winnerAlert.setContentText("DON'T GIVE UP! TRY HARDER!");
+							}
+						}
+						winnerAlert.show();						
+					}
+				});				
+			}
 		} catch (NoSuchFieldException | SecurityException e) {
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
@@ -111,40 +235,6 @@ public class AnchorPaneInGameController implements Initializable {
 
 	}
 
-	public void setDialogStage(String ip, String playerName) {
-
-		if (playerName.isEmpty()) {
-			playerName = "Player 1";
-		}
-
-		try {
-			listenServer = new Socket(ip, 5000);
-			System.out.println(ip);
-			listener = new Scanner(listenServer.getInputStream());
-			String isConnected = listener.nextLine();
-			if (isConnected.startsWith("CONNECTED")) {
-				int port = Integer.parseInt(isConnected.split(" ")[2]);
-				actualPlayer = isConnected.split(" ")[1];
-				if (actualPlayer.equals("PLAYER1")) {
-					player1 = true;
-					nicknameP1Label.setText(playerName);
-				} else {
-					player1 = false;
-					nicknameP2Label.setText(playerName);
-				}
-
-				listenServer = new Socket(ip, port);
-				sendCordinates = new PrintWriter(listenServer.getOutputStream());
-				Listener listenerThread = new Listener();
-				listenerThread.start();
-			}
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
 	class Listener extends Thread {
 
 		@Override
@@ -153,13 +243,14 @@ public class AnchorPaneInGameController implements Initializable {
 			if (listener.hasNextLine()) {
 				getValue = listener.nextLine();
 			}
-			while (!getValue.equals("X") && !getValue.equals("O") && count < 9) {
+			while (!getValue.contains("FINISHED")) {
 				String[] cordinates = getValue.split(" ");
 				setButtonImage(cordinates[0], cordinates[1]);
 				if (listener.hasNextLine()) {
 					getValue = listener.nextLine();
 				}
 			}
+
 		}
 	}
 }

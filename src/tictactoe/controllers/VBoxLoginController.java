@@ -29,13 +29,13 @@ public class VBoxLoginController implements Initializable {
 	
 	@FXML
 	public void handleQuitButton(){
-		Stage stage  = (Stage) quitButton.getScene().getWindow();;
+		Stage stage  = (Stage) quitButton.getScene().getWindow();
 		stage.close();
 	}
 
 	@FXML
 	public void handleLoginButton() throws IOException{
-		Stage stage  = (Stage) quitButton.getScene().getWindow();;
+		Stage stage  = (Stage) quitButton.getScene().getWindow();
 		stage.close();	
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(AnchorPaneInGameController.class.getResource("/tictactoe/views/AnchorPaneInGame.fxml"));
