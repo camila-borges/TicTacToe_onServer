@@ -1,14 +1,13 @@
 package tictactoe.controllers;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.lang.reflect.Field;
 import java.net.Socket;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 
 import javafx.application.Platform;
 import javafx.event.Event;
@@ -43,7 +42,7 @@ public class AnchorPaneInGameController implements Initializable {
 
 	Socket listenServer;
 	PrintWriter writeToMainServer;
-	BufferedReader listener;
+	Scanner listener;
 	PrintWriter sendCordinates;
 
 	public void setDialogStage(String ip, String playerName) {
@@ -52,9 +51,8 @@ public class AnchorPaneInGameController implements Initializable {
 			writeToMainServer = new PrintWriter(listenServer.getOutputStream());
 			writeToMainServer.println(playerName);
 			writeToMainServer.flush();
-			listener = new BufferedReader(new InputStreamReader(listenServer.getInputStream()));
-			String isConnected = null;
-			while ((isConnected = listener.readLine()) == null) { }
+			listener = new Scanner(listenServer.getInputStream());
+			String isConnected = listener.nextLine();
 			if (isConnected.startsWith("CONNECTED")) {
 				int port = Integer.parseInt(isConnected.split(" ")[2]);
 				actualPlayer = isConnected.split(" ")[1];
@@ -70,7 +68,7 @@ public class AnchorPaneInGameController implements Initializable {
 
 				listenServer = new Socket(ip, port);
 				sendCordinates = new PrintWriter(listenServer.getOutputStream());
-
+				
 				Listener listenerThread = new Listener();
 				listenerThread.start();
 			}
@@ -111,7 +109,8 @@ public class AnchorPaneInGameController implements Initializable {
 		if (((actualPlayer.equals("PLAYER1") && xTurn) || (actualPlayer.equals("PLAYER2") && !xTurn))
 				&& clickedButton.getStyle().startsWith("-fx-border")) {
 			clickedButton.setStyle(game.drawValue(row, column, player1));
-			sendCordinates.println(row + " " + column);
+			sendCordinates.write(row + " " + column + "\n");
+			sendCordinates.println(row + " " + column + "\n");
 			sendCordinates.flush();
 			xTurn = !xTurn;
 			verifyGameState();
@@ -153,7 +152,7 @@ public class AnchorPaneInGameController implements Initializable {
 
 	public void verifyGameState() {
 		if (game.getIsGameEnded()) {
-			sendCordinates.println("FINISHED");
+			sendCordinates.println("FINISHED\n");
 			sendCordinates.flush();
 			but00.setDisable(true);
 			but01.setDisable(true);
@@ -190,7 +189,7 @@ public class AnchorPaneInGameController implements Initializable {
 							winnerAlert.setHeaderText("YOU LOSE!");
 							winnerAlert.setContentText("DON'T GIVE UP! TRY HARDER!");
 						}
-					} else if (game.getWinner().equals("N")) {
+					} else if (game.getWinner().equals("N")){
 						winnerAlert.setTitle("DRAW");
 						winnerAlert.setHeaderText("IT'S A DRAW!");
 						winnerAlert.setContentText("DON'T GIVE UP! TRY HARDER!");
@@ -208,17 +207,15 @@ public class AnchorPaneInGameController implements Initializable {
 		@Override
 		public void run() {
 			String getValue = "";
-			try {
-				while ((getValue = listener.readLine()) == null
-						|| (!getValue.contains("FINISHED") && !getValue.contains("CONNECTED"))) {
-					if (getValue != null) {
-						String[] cordinates = getValue.split(" ");
-						refreshForOpponent(cordinates[0], cordinates[1]);
-					}
+			if (listener.hasNextLine()) {
+				getValue = listener.nextLine();
+			}
+			while (!getValue.contains("FINISHED") && !getValue.contains("CONNECTED")) {
+				String[] cordinates = getValue.split(" ");
+				refreshForOpponent(cordinates[0], cordinates[1]);
+				if (listener.hasNextLine()) {
+					getValue = listener.nextLine();
 				}
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 
 		}
