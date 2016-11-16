@@ -109,8 +109,7 @@ public class AnchorPaneInGameController implements Initializable {
 		if (((actualPlayer.equals("PLAYER1") && xTurn) || (actualPlayer.equals("PLAYER2") && !xTurn))
 				&& clickedButton.getStyle().startsWith("-fx-border")) {
 			clickedButton.setStyle(game.drawValue(row, column, player1));
-			sendCordinates.write(row + " " + column + "\n");
-			sendCordinates.println(row + " " + column + "\n");
+			sendCordinates.println(row + " " + column);
 			sendCordinates.flush();
 			xTurn = !xTurn;
 			verifyGameState();
@@ -152,7 +151,7 @@ public class AnchorPaneInGameController implements Initializable {
 
 	public void verifyGameState() {
 		if (game.getIsGameEnded()) {
-			sendCordinates.println("FINISHED\n");
+			sendCordinates.println("FINISHED");
 			sendCordinates.flush();
 			but00.setDisable(true);
 			but01.setDisable(true);
