@@ -22,10 +22,12 @@ public class MainServer {
 				System.out.println("Player 1 conectado.");
 				player1Scan = new Scanner(client1.getInputStream());
 				String player1Name = player1Scan.nextLine();
+				
 				Socket client2 = server.accept();
 				System.out.println("Player 2 conectado.");
 				player2Scan = new Scanner(client2.getInputStream());
-				String player2Name = player2Scan.nextLine();				
+				String player2Name = player2Scan.nextLine();	
+				
 				TicTacToeThread game = new TicTacToeThread(client1, client2, player1Name, player2Name);				
 				game.start();
 				connectedList.add(game);				

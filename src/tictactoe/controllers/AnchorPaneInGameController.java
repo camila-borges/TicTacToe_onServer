@@ -121,6 +121,7 @@ public class AnchorPaneInGameController implements Initializable {
 	public void handleQuitButton() {
 		Stage stage = (Stage) quitButton.getScene().getWindow();
 		stage.close();
+		sendCordinates.println("FINISHED");
 	}
 
 	public void refreshForOpponent(String row, String column) {
@@ -209,7 +210,7 @@ public class AnchorPaneInGameController implements Initializable {
 			if (listener.hasNextLine()) {
 				getValue = listener.nextLine();
 			}
-			while (!getValue.contains("FINISHED") && !getValue.contains("CONNECTED")) {
+			while (!getValue.contains("FINISHED")) {
 				String[] cordinates = getValue.split(" ");
 				refreshForOpponent(cordinates[0], cordinates[1]);
 				if (listener.hasNextLine()) {
