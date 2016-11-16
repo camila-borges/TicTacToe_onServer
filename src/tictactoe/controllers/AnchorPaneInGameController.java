@@ -121,6 +121,7 @@ public class AnchorPaneInGameController implements Initializable {
 	public void handleQuitButton() {
 		Stage stage = (Stage) quitButton.getScene().getWindow();
 		stage.close();
+		sendCordinates.println("FINISHED");
 	}
 
 	public void refreshForOpponent(String row, String column) {
