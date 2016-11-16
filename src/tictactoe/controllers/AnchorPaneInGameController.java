@@ -66,13 +66,8 @@ public class AnchorPaneInGameController implements Initializable {
 					nicknameP1Label.setText(isConnected.split(" ")[3]);
 				}
 
-				writeToMainServer.close();
-				listener.close();
-				listenServer.close();
-				
 				listenServer = new Socket(ip, port);
 				sendCordinates = new PrintWriter(listenServer.getOutputStream());
-				listener = new Scanner(listenServer.getInputStream());
 				
 				Listener listenerThread = new Listener();
 				listenerThread.start();
@@ -114,7 +109,7 @@ public class AnchorPaneInGameController implements Initializable {
 		if (((actualPlayer.equals("PLAYER1") && xTurn) || (actualPlayer.equals("PLAYER2") && !xTurn))
 				&& clickedButton.getStyle().startsWith("-fx-border")) {
 			clickedButton.setStyle(game.drawValue(row, column, player1));
-			sendCordinates.println(row + " " + column);
+			sendCordinates.println(row + " " + column + "\n");
 			sendCordinates.flush();
 			xTurn = !xTurn;
 			verifyGameState();
@@ -156,7 +151,7 @@ public class AnchorPaneInGameController implements Initializable {
 
 	public void verifyGameState() {
 		if (game.getIsGameEnded()) {
-			sendCordinates.println("FINISHED");
+			sendCordinates.println("FINISHED\n");
 			sendCordinates.flush();
 			but00.setDisable(true);
 			but01.setDisable(true);
@@ -211,13 +206,6 @@ public class AnchorPaneInGameController implements Initializable {
 		@Override
 		public void run() {
 			String getValue = "";
-			while (!listener.hasNextLine()) {
-				try {
-					sleep(250L);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
 			if (listener.hasNextLine()) {
 				getValue = listener.nextLine();
 			}

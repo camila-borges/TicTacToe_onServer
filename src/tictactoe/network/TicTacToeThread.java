@@ -69,29 +69,23 @@ public class TicTacToeThread extends Thread {
 			while (true) {
 				// Player 1 turn
 				String player1Response = " ";
-				while (xTurn) {
-					while (!player1Scanner.hasNextLine()) {
-						sleep(250L);
-					}
+				
 					player1Response = player1Scanner.nextLine();
 					player2Stream.println(player1Response);
 					player2Stream.flush();
 					xTurn = false;
-				}
+				
 
 				// Player 2 turn
 				String player2Response = " ";
-				while (!xTurn) {
-					while (!player1Scanner.hasNextLine()) {
-						sleep(250L);
-					}
+				
 					player2Response = player2Scanner.nextLine();
 					player1Stream.println(player2Response);
 					player1Stream.flush();
 					xTurn = true;
-				}
+				
 			}
-		} catch (IOException | InterruptedException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
