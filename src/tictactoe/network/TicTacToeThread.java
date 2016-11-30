@@ -6,6 +6,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -46,10 +47,7 @@ public class TicTacToeThread extends Thread {
 			player1 = match.accept();
 			System.out.println("Player 1 entrou na partida, porta " + portNumber + player1Name);
 			player2 = match.accept();
-			// player2Stream.println("READY");
-			// player2Stream.flush();
-			// player1Stream.println("READY");
-			// player1Stream.flush();
+		
 			System.out.println("Player 2 entrou na partida, porta " + portNumber);
 			player1Scanner = new Scanner(player1.getInputStream());
 			player2Scanner = new Scanner(player2.getInputStream());
@@ -66,17 +64,22 @@ public class TicTacToeThread extends Thread {
 
 			while (true) {
 				// Player 1 turn
-				String player1Response = " ";
+				try {
+					String player1Response = " ";
 
-				player1Response = player1Scanner.nextLine();
-				player2Stream.println(player1Response);
-				player2Stream.flush();
+					player1Response = player1Scanner.nextLine();
+					player2Stream.println(player1Response);
+					player2Stream.flush();
 
-				// Player 2 turn
-				String player2Response = " ";
-				player2Response = player2Scanner.nextLine();
-				player1Stream.println(player2Response);
-				player1Stream.flush();
+					// Player 2 turn
+					String player2Response = " ";
+					player2Response = player2Scanner.nextLine();
+					player1Stream.println(player2Response);
+					player1Stream.flush();
+				} catch (NoSuchElementException e) {
+					System.out.println("Jogo encerrado!");
+					break;
+				}
 
 			}
 		} catch (IOException e) {

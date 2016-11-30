@@ -29,8 +29,7 @@ public class VBoxLoginController implements Initializable {
 
 	@FXML
 	public void handleQuitButton() {
-		Stage stage = (Stage) quitButton.getScene().getWindow();
-		stage.close();
+		System.exit(0);
 	}
 
 	@FXML
