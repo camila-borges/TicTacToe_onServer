@@ -21,7 +21,7 @@ import javafx.stage.Stage;
 public class VBoxLoginController implements Initializable {
 
 	@FXML
-	private Button quitButton, loginButton;
+	private Button quitButton, loginButton, aboutButton;
 	@FXML
 	private TextField nicknameTextField, ipTextField;
 
@@ -33,6 +33,20 @@ public class VBoxLoginController implements Initializable {
 	@FXML
 	public void handleQuitButton() {
 		System.exit(0);
+	}
+	
+	@FXML
+	public void handleButtonAbout() throws IOException{
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(AboutController.class.getResource("/tictactoe/views/About.fxml"));
+		AnchorPane page = (AnchorPane) loader.load();
+
+		Stage gameStage = new Stage();
+		Scene scene = new Scene(page);
+		gameStage.setScene(scene);
+		gameStage.setTitle("Sobre o TicTacToe");
+		
+		gameStage.show();
 	}
 
 	/*

@@ -12,13 +12,16 @@ import java.util.Scanner;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import tictactoe.models.TicTacToeGameControl;
@@ -28,7 +31,7 @@ public class AnchorPaneInGameController implements Initializable {
 	@FXML
 	private Label nicknameP1Label, nicknameP2Label, scoreP1Label, scoreP2Label;
 	@FXML
-	private Button pauseButton, quitButton;
+	private Button pauseButton, quitButton, aboutButton;
 	@FXML
 	private GridPane gridGame;
 	@FXML
@@ -136,6 +139,20 @@ public class AnchorPaneInGameController implements Initializable {
 
 	}
 
+	@FXML
+	public void handleButtonAbout() throws IOException{
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(AboutController.class.getResource("/tictactoe/views/About.fxml"));
+		AnchorPane page = (AnchorPane) loader.load();
+
+		Stage gameStage = new Stage();
+		Scene scene = new Scene(page);
+		gameStage.setScene(scene);
+		gameStage.setTitle("Sobre o TicTacToe");
+		
+		gameStage.show();
+	}
+	
 	@FXML
 	public void handleQuitButton() {
 		Stage stage = (Stage) quitButton.getScene().getWindow();
