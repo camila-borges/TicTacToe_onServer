@@ -15,6 +15,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+/*
+ * Classe responsável por controlar a tela de login, que conterá informaçoes relativa ao nome do jogador e o ip do servidor do jogo
+ */
 public class VBoxLoginController implements Initializable {
 
 	@FXML
@@ -32,9 +35,18 @@ public class VBoxLoginController implements Initializable {
 		System.exit(0);
 	}
 
+	/*
+	 * Método para fazer a transição entre a tela de login e a tela de jogo em
+	 * si.
+	 */
 	@FXML
 	public void handleLoginButton() throws IOException {
 
+		/*
+		 * Verfica se ambos os campos presentes na tela estão preenchidos
+		 * corretamente. Caso estejam, as informações são passadas para o
+		 * controller da tela do jogo
+		 */
 		if (nicknameTextField.getText().isEmpty() || ipTextField.getText().isEmpty()) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("EMPTY FIELD!");

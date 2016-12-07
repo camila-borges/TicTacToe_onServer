@@ -45,14 +45,26 @@ public class AnchorPaneInGameController implements Initializable {
 	Scanner listener;
 	PrintWriter sendCordinates;
 
+	/*
+	 * Método a ser chamado para realizar a transição da tela de conexão para a
+	 * tela de jogo. Responsável por preparar todas as informações iniciais do
+	 * jogo e iniciar a thread do mesmo para cada jogador.
+	 */
 	public void setDialogStage(String ip, String playerName) {
 		try {
+			/*
+			 * Realiza a conexão com o servidor principal.
+			 */
 			listenServer = new Socket(ip, 5000);
 			writeToMainServer = new PrintWriter(listenServer.getOutputStream());
 			writeToMainServer.println(playerName);
 			writeToMainServer.flush();
 			listener = new Scanner(listenServer.getInputStream());
 			String isConnected = listener.nextLine();
+			/*
+			 * Verifica se a conexão foi bem sucedida e altera o nome de cada
+			 * jogador na tela de acordo com quem foi conectado
+			 */
 			if (isConnected.startsWith("CONNECTED")) {
 				int port = Integer.parseInt(isConnected.split(" ")[2]);
 				actualPlayer = isConnected.split(" ")[1];
@@ -68,7 +80,10 @@ public class AnchorPaneInGameController implements Initializable {
 
 				listenServer = new Socket(ip, port);
 				sendCordinates = new PrintWriter(listenServer.getOutputStream());
-				
+
+				/*
+				 * Inicia a Thread que trata o jogo
+				 */
 				Listener listenerThread = new Listener();
 				listenerThread.start();
 			}
@@ -89,6 +104,10 @@ public class AnchorPaneInGameController implements Initializable {
 
 	}
 
+	/*
+	 * Método que verifica qual botão foi clicado e trata o evento que deverá
+	 * ocorrer de acordo com o estado atual do jogo
+	 */
 	@FXML
 	@SuppressWarnings("static-access")
 	public void handlePaneClick(Event evt) {
@@ -124,6 +143,10 @@ public class AnchorPaneInGameController implements Initializable {
 		sendCordinates.println("FINISHED");
 	}
 
+	/*
+	 * Método responsável por atualizar as informações na tela do jogador que
+	 * estava aguardando a sua vez.
+	 */
 	public void refreshForOpponent(String row, String column) {
 
 		Integer intRow = Integer.parseInt(row);
@@ -150,6 +173,10 @@ public class AnchorPaneInGameController implements Initializable {
 
 	}
 
+	/*
+	 * Método que deve ser chamado a cada jogada. Ele verifica o estado atual do
+	 * jogo e trata as mensagens de vitória, derrota ou empate
+	 */
 	public void verifyGameState() {
 		if (game.getIsGameEnded()) {
 			sendCordinates.println("FINISHED");
@@ -189,7 +216,7 @@ public class AnchorPaneInGameController implements Initializable {
 							winnerAlert.setHeaderText("YOU LOSE!");
 							winnerAlert.setContentText("DON'T GIVE UP! TRY HARDER!");
 						}
-					} else if (game.getWinner().equals("N")){
+					} else if (game.getWinner().equals("N")) {
 						winnerAlert.setTitle("DRAW");
 						winnerAlert.setHeaderText("IT'S A DRAW!");
 						winnerAlert.setContentText("DON'T GIVE UP! TRY HARDER!");
@@ -202,6 +229,11 @@ public class AnchorPaneInGameController implements Initializable {
 		}
 	}
 
+	/*
+	 * Thread responsável por controlar a tela do jogo. É ela quem passa as
+	 * informações para se atualizar as informações de cada jogada para o
+	 * oponente
+	 */
 	class Listener extends Thread {
 
 		@Override

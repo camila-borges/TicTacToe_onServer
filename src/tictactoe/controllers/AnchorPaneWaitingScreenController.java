@@ -12,6 +12,10 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+/*
+ * Tela a ser implementada em futuras atualizações do jogo.
+ */
+
 public class AnchorPaneWaitingScreenController implements Initializable {
 
 	@FXML

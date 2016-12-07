@@ -8,6 +8,9 @@ public class TicTacToeGameControl {
 	private String winner;
 	private int gameCounter = 0;
 
+	/*
+	 * Inicialização do tabuleiro.
+	 */
 	public TicTacToeGameControl() {
 		for (int i = 0; i < gameBoard.length; i++) {
 			for (int j = 0; j < gameBoard.length; j++) {
@@ -18,6 +21,10 @@ public class TicTacToeGameControl {
 
 	public String drawValue(int row, int column, boolean xTurn) {
 
+		/*
+		 * Informações sobre o aspecto visual que será passado para o botão
+		 * pressionado
+		 */
 		String defaultStyle = "-fx-background-position: center center; " + "-fx-background-repeat: stretch;"
 				+ "-fx-background-size: 130px 130px;" + "-fx-background-color: transparent;"
 				+ "-fx-border-color:  #66cc00";
@@ -33,7 +40,10 @@ public class TicTacToeGameControl {
 			isGameComplete();
 			xTurn = true;
 		}
-
+		/*
+		 * Verifica o valor presente na posição passada por parâmetro para o
+		 * vetor e define o visual de seu respectivo botão com base nesse valor.
+		 */
 		if (gameBoard[row][column] == "X") {
 			return "-fx-background-image: url('/resources/angryBeaversX.png'); " + defaultStyle;
 		} else if (gameBoard[row][column] == "O") {
@@ -48,6 +58,10 @@ public class TicTacToeGameControl {
 		return this.gameBoard;
 	}
 
+	/*
+	 * Esse método é responsável pela verificação do estado do jogo. É preciso
+	 * chamá-lo antes de alterar qualquer coisa no tabuleiro.
+	 */
 	public void isGameComplete() {
 
 		// Rows verifier
@@ -112,14 +126,14 @@ public class TicTacToeGameControl {
 			isGameEnded = true;
 			winner = "O";
 		}
-		
-		if(gameCounter == 9 && !isGameEnded){
+
+		if (gameCounter == 9 && !isGameEnded) {
 			isGameEnded = true;
-			winner = "N";			
+			winner = "N";
 		}
 		return;
 	}
-	
+
 	public boolean getIsGameEnded() {
 		return this.isGameEnded;
 	}
